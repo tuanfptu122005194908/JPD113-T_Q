@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ôn Luyện Tiếng Nhật - Tuấn và Quân</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      header {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      h1 {
+        color: #667eea;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        color: #666;
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+      }
+
+      .contact-info {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 15px;
+      }
+
+      .contact-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background: #667eea;
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        transition: all 0.3s;
+      }
+
+      .contact-btn:hover {
+        background: #764ba2;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .tab-btn {
+        padding: 15px 30px;
+        background: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.3s;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .tab-btn.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .kana-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .kana-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+      }
+
+      .kana-card:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .kana-char {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .kana-romaji {
+        font-size: 0.9rem;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .kana-card:hover .kana-romaji {
+        opacity: 1;
+      }
+
+      .speaking-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .japanese-text {
+        font-size: 1.5rem;
+        color: #333;
+        margin: 15px 0;
+        line-height: 1.8;
+      }
+
+      .translation {
+        color: #666;
+        margin: 10px 0;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        display: none;
+      }
+
+      .translation.show {
+        display: block;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        margin: 5px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-secondary {
+        background: #f8f9fa;
+        color: #333;
+      }
+
+      .btn-secondary:hover {
+        background: #e9ecef;
+      }
+
+      .settings-panel {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+      }
+
+      .speed-control {
+        margin-top: 10px;
+      }
+
+      .speed-control label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .speed-control select {
+        width: 100%;
+        padding: 8px;
+        border: 2px solid #667eea;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+
+      .kanji-section {
+        margin-top: 30px;
+      }
+
+      .kanji-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .kanji-large {
+        font-size: 5rem;
+        margin: 20px 0;
+      }
+
+      .kanji-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .info-box {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 15px;
+        border-radius: 10px;
+      }
+
+      .quiz-container {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-top: 20px;
+      }
+
+      .quiz-question {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .quiz-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+      }
+
+      .quiz-option {
+        padding: 20px;
+        background: #f8f9fa;
+        border: 2px solid transparent;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+      }
+
+      .quiz-option:hover {
+        background: #e9ecef;
+        border-color: #667eea;
+      }
+
+      .quiz-option.correct {
+        background: #d4edda;
+        border-color: #28a745;
+      }
+
+      .quiz-option.wrong {
+        background: #f8d7da;
+        border-color: #dc3545;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        .kana-grid {
+          grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+          gap: 10px;
+        }
+
+        .settings-panel {
+          bottom: 10px;
+          right: 10px;
+          left: 10px;
+        }
+      }
+
+      .hint-text {
+        color: #6c757d;
+        font-style: italic;
+        margin: 10px 0;
+        padding: 10px;
+        background: #f8f9fa;
+        border-left: 4px solid #667eea;
+        border-radius: 4px;
+      }
+
+      .image-container {
+        text-align: center;
+        margin: 20px 0;
+      }
+
+      .question-image {
+        max-width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1><i class="fas fa-torii-gate"></i> Ôn Luyện Tiếng Nhật</h1>
+        <p class="subtitle">Học tiếng Nhật cùng Tuấn và Quân</p>
+        <div class="contact-info">
+          <a
+            href="https://www.facebook.com/tuanvaquan"
+            class="contact-btn"
+            target="_blank"
+          >
+            <i class="fab fa-facebook"></i> Facebook
+          </a>
+          <a href="#" class="contact-btn">
+            <i class="fas fa-envelope"></i> Liên hệ
+          </a>
+        </div>
+      </header>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('hiragana')">
+          <i class="fas fa-language"></i> Hiragana
+        </button>
+        <button class="tab-btn" onclick="showTab('katakana')">
+          <i class="fas fa-font"></i> Katakana
+        </button>
+        <button class="tab-btn" onclick="showTab('kanji')">
+          <i class="fas fa-text-height"></i> Kanji
+        </button>
+        <button class="tab-btn" onclick="showTab('speaking')">
+          <i class="fas fa-comments"></i> Luyện Nói
+        </button>
+        <button class="tab-btn" onclick="showTab('quiz')">
+          <i class="fas fa-graduation-cap"></i> Kiểm Tra
+        </button>
+      </div>
+
+      <!-- Hiragana Tab -->
+      <div id="hiragana" class="tab-content active">
+        <div class="card">
+          <h2><i class="fas fa-book"></i> Bảng Chữ Hiragana</h2>
+          <p>Nhấp vào từng ký tự để nghe phát âm</p>
+          <div id="hiragana-grid" class="kana-grid"></div>
+        </div>
+      </div>
+
+      <!-- Katakana Tab -->
+      <div id="katakana" class="tab-content">
+        <div class="card">
+          <h2><i class="fas fa-book"></i> Bảng Chữ Katakana</h2>
+          <p>Nhấp vào từng ký tự để nghe phát âm</p>
+          <div id="katakana-grid" class="kana-grid"></div>
+        </div>
+      </div>
+
+      <!-- Kanji Tab -->
+      <div id="kanji" class="tab-content">
+        <div class="card">
+          <h2><i class="fas fa-book"></i> Học Kanji Cơ Bản</h2>
+          <div id="kanji-list"></div>
+        </div>
+      </div>
+
+      <!-- Speaking Tab -->
+      <div id="speaking" class="tab-content">
+        <div class="card">
+          <h2><i class="fas fa-microphone"></i> Luyện Thi Nói JPD113/JPD123</h2>
+          <div id="speaking-content"></div>
+        </div>
+      </div>
+
+      <!-- Quiz Tab -->
+      <div id="quiz" class="tab-content">
+        <div class="card">
+          <h2><i class="fas fa-question-circle"></i> Kiểm Tra Kiến Thức</h2>
+          <div id="quiz-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-panel">
+      <h3><i class="fas fa-cog"></i> Cài Đặt</h3>
+      <div class="speed-control">
+        <label>Tốc độ phát âm:</label>
+        <select id="speech-rate">
+          <option value="0.5">Rất chậm (0.5x)</option>
+          <option value="0.8">Chậm (0.8x)</option>
+          <option value="1.0" selected>Bình thường (1.0x)</option>
+          <option value="1.2">Nhanh (1.2x)</option>
+          <option value="1.5">Rất nhanh (1.5x)</option>
+        </select>
+      </div>
+    </div>
+
+    <script>
+      // Dữ liệu Hiragana
+      const hiraganaData = [
+        { char: "あ", romaji: "a" },
+        { char: "い", romaji: "i" },
+        { char: "う", romaji: "u" },
+        { char: "え", romaji: "e" },
+        { char: "お", romaji: "o" },
+        { char: "か", romaji: "ka" },
+        { char: "き", romaji: "ki" },
+        { char: "く", romaji: "ku" },
+        { char: "け", romaji: "ke" },
+        { char: "こ", romaji: "ko" },
+        { char: "さ", romaji: "sa" },
+        { char: "し", romaji: "shi" },
+        { char: "す", romaji: "su" },
+        { char: "せ", romaji: "se" },
+        { char: "そ", romaji: "so" },
+        { char: "た", romaji: "ta" },
+        { char: "ち", romaji: "chi" },
+        { char: "つ", romaji: "tsu" },
+        { char: "て", romaji: "te" },
+        { char: "と", romaji: "to" },
+        { char: "な", romaji: "na" },
+        { char: "に", romaji: "ni" },
+        { char: "ぬ", romaji: "nu" },
+        { char: "ね", romaji: "ne" },
+        { char: "の", romaji: "no" },
+        { char: "は", romaji: "ha" },
+        { char: "ひ", romaji: "hi" },
+        { char: "ふ", romaji: "fu" },
+        { char: "へ", romaji: "he" },
+        { char: "ほ", romaji: "ho" },
+        { char: "ま", romaji: "ma" },
+        { char: "み", romaji: "mi" },
+        { char: "む", romaji: "mu" },
+        { char: "め", romaji: "me" },
+        { char: "も", romaji: "mo" },
+        { char: "や", romaji: "ya" },
+        { char: "ゆ", romaji: "yu" },
+        { char: "よ", romaji: "yo" },
+        { char: "ら", romaji: "ra" },
+        { char: "り", romaji: "ri" },
+        { char: "る", romaji: "ru" },
+        { char: "れ", romaji: "re" },
+        { char: "ろ", romaji: "ro" },
+        { char: "わ", romaji: "wa" },
+        { char: "を", romaji: "wo" },
+        { char: "ん", romaji: "n" },
+      ];
+
+      // Dữ liệu Katakana
+      const katakanaData = [
+        { char: "ア", romaji: "a" },
+        { char: "イ", romaji: "i" },
+        { char: "ウ", romaji: "u" },
+        { char: "エ", romaji: "e" },
+        { char: "オ", romaji: "o" },
+        { char: "カ", romaji: "ka" },
+        { char: "キ", romaji: "ki" },
+        { char: "ク", romaji: "ku" },
+        { char: "ケ", romaji: "ke" },
+        { char: "コ", romaji: "ko" },
+        { char: "サ", romaji: "sa" },
+        { char: "シ", romaji: "shi" },
+        { char: "ス", romaji: "su" },
+        { char: "セ", romaji: "se" },
+        { char: "ソ", romaji: "so" },
+        { char: "タ", romaji: "ta" },
+        { char: "チ", romaji: "chi" },
+        { char: "ツ", romaji: "tsu" },
+        { char: "テ", romaji: "te" },
+        { char: "ト", romaji: "to" },
+        { char: "ナ", romaji: "na" },
+        { char: "ニ", romaji: "ni" },
+        { char: "ヌ", romaji: "nu" },
+        { char: "ネ", romaji: "ne" },
+        { char: "ノ", romaji: "no" },
+        { char: "ハ", romaji: "ha" },
+        { char: "ヒ", romaji: "hi" },
+        { char: "フ", romaji: "fu" },
+        { char: "ヘ", romaji: "he" },
+        { char: "ホ", romaji: "ho" },
+        { char: "マ", romaji: "ma" },
+        { char: "ミ", romaji: "mi" },
+        { char: "ム", romaji: "mu" },
+        { char: "メ", romaji: "me" },
+        { char: "モ", romaji: "mo" },
+        { char: "ヤ", romaji: "ya" },
+        { char: "ユ", romaji: "yu" },
+        { char: "ヨ", romaji: "yo" },
+        { char: "ラ", romaji: "ra" },
+        { char: "リ", romaji: "ri" },
+        { char: "ル", romaji: "ru" },
+        { char: "レ", romaji: "re" },
+        { char: "ロ", romaji: "ro" },
+        { char: "ワ", romaji: "wa" },
+        { char: "ヲ", romaji: "wo" },
+        { char: "ン", romaji: "n" },
+      ];
+
+      // Dữ liệu Kanji cơ bản
+      // Dữ liệu Kanji cơ bản
+      const kanjiData = [
+        // Bài 1: Giới thiệu bản thân
+        {
+          char: "私",
+          meaning: "Tôi",
+          onyomi: "シ",
+          kunyomi: "わたし",
+          examples: "私 (わたし) - tôi",
+        },
+        {
+          char: "才",
+          meaning: "Tuổi",
+          onyomi: "サイ",
+          kunyomi: "-",
+          examples: "二十才 (にじっさい) - 20 tuổi",
+        },
+        {
+          char: "人",
+          meaning: "Người",
+          onyomi: "ジン, ニン",
+          kunyomi: "ひと",
+          examples: "日本人 (にほんじん) - người Nhật",
+        },
+        {
+          char: "学",
+          meaning: "Học tập",
+          onyomi: "ガク",
+          kunyomi: "まな(ぶ)",
+          examples: "学校 (がっこう) - trường học",
+        },
+        {
+          char: "校",
+          meaning: "Trường học",
+          onyomi: "コウ",
+          kunyomi: "-",
+          examples: "学校 (がっこう) - trường học",
+        },
+        {
+          char: "生",
+          meaning: "Sinh, sống",
+          onyomi: "セイ",
+          kunyomi: "い(きる)",
+          examples: "学生 (がくせい) - học sinh",
+        },
+        {
+          char: "先",
+          meaning: "Trước",
+          onyomi: "セン",
+          kunyomi: "さき",
+          examples: "先生 (せんせい) - thầy giáo",
+        },
+        {
+          char: "本",
+          meaning: "Gốc, sách",
+          onyomi: "ホン",
+          kunyomi: "もと",
+          examples: "日本 (にほん) - Nhật Bản",
+        },
+        {
+          char: "日",
+          meaning: "Mặt trời, ngày",
+          onyomi: "ニチ, ジツ",
+          kunyomi: "ひ, か",
+          examples: "日本 (にほん) - Nhật Bản",
+        },
+        {
+          char: "語",
+          meaning: "Ngôn ngữ",
+          onyomi: "ゴ",
+          kunyomi: "かた(る)",
+          examples: "日本語 (にほんご) - tiếng Nhật",
+        },
+
+        // Bài 2: Số đếm
+        {
+          char: "一",
+          meaning: "Số 1",
+          onyomi: "イチ",
+          kunyomi: "ひと(つ)",
+          examples: "一つ (ひとつ) - một cái",
+        },
+        {
+          char: "二",
+          meaning: "Số 2",
+          onyomi: "ニ",
+          kunyomi: "ふた(つ)",
+          examples: "二つ (ふたつ) - hai cái",
+        },
+        {
+          char: "三",
+          meaning: "Số 3",
+          onyomi: "サン",
+          kunyomi: "みっ(つ)",
+          examples: "三つ (みっつ) - ba cái",
+        },
+        {
+          char: "四",
+          meaning: "Số 4",
+          onyomi: "シ",
+          kunyomi: "よん, よっ(つ)",
+          examples: "四つ (よっつ) - bốn cái",
+        },
+        {
+          char: "五",
+          meaning: "Số 5",
+          onyomi: "ゴ",
+          kunyomi: "いつ(つ)",
+          examples: "五つ (いつつ) - năm cái",
+        },
+        {
+          char: "六",
+          meaning: "Số 6",
+          onyomi: "ロク",
+          kunyomi: "むっ(つ)",
+          examples: "六つ (むっつ) - sáu cái",
+        },
+        {
+          char: "七",
+          meaning: "Số 7",
+          onyomi: "シチ",
+          kunyomi: "なな(つ)",
+          examples: "七つ (ななつ) - bảy cái",
+        },
+        {
+          char: "八",
+          meaning: "Số 8",
+          onyomi: "ハチ",
+          kunyomi: "やっ(つ)",
+          examples: "八つ (やっつ) - tám cái",
+        },
+        {
+          char: "九",
+          meaning: "Số 9",
+          onyomi: "キュウ",
+          kunyomi: "ここの(つ)",
+          examples: "九つ (ここのつ) - chín cái",
+        },
+        {
+          char: "十",
+          meaning: "Số 10",
+          onyomi: "ジュウ",
+          kunyomi: "とお",
+          examples: "十 (じゅう) - mười",
+        },
+        {
+          char: "百",
+          meaning: "100",
+          onyomi: "ヒャク",
+          kunyomi: "-",
+          examples: "百円 (ひゃくえん) - 100 yên",
+        },
+        {
+          char: "千",
+          meaning: "1000",
+          onyomi: "セン",
+          kunyomi: "-",
+          examples: "千円 (せんえん) - 1000 yên",
+        },
+        {
+          char: "万",
+          meaning: "10000",
+          onyomi: "マン",
+          kunyomi: "-",
+          examples: "一万円 (いちまんえん) - 10000 yên",
+        },
+        {
+          char: "円",
+          meaning: "Yên (tiền)",
+          onyomi: "エン",
+          kunyomi: "-",
+          examples: "百円 (ひゃくえん) - 100 yên",
+        },
+
+        // Bài 3: Thứ trong tuần & Thời gian
+        {
+          char: "月",
+          meaning: "Mặt trăng, tháng, thứ 2",
+          onyomi: "ゲツ, ガツ",
+          kunyomi: "つき",
+          examples: "月曜日 (げつようび) - thứ 2",
+        },
+        {
+          char: "火",
+          meaning: "Lửa, thứ 3",
+          onyomi: "カ",
+          kunyomi: "ひ",
+          examples: "火曜日 (かようび) - thứ 3",
+        },
+        {
+          char: "水",
+          meaning: "Nước, thứ 4",
+          onyomi: "スイ",
+          kunyomi: "みず",
+          examples: "水曜日 (すいようび) - thứ 4",
+        },
+        {
+          char: "木",
+          meaning: "Cây, thứ 5",
+          onyomi: "モク, ボク",
+          kunyomi: "き",
+          examples: "木曜日 (もくようび) - thứ 5",
+        },
+        {
+          char: "金",
+          meaning: "Kim loại, tiền, thứ 6",
+          onyomi: "キン, コン",
+          kunyomi: "かね",
+          examples: "金曜日 (きんようび) - thứ 6",
+        },
+        {
+          char: "土",
+          meaning: "Đất, thứ 7",
+          onyomi: "ド, ト",
+          kunyomi: "つち",
+          examples: "土曜日 (どようび) - thứ 7",
+        },
+        {
+          char: "時",
+          meaning: "Giờ",
+          onyomi: "ジ",
+          kunyomi: "とき",
+          examples: "一時 (いちじ) - 1 giờ",
+        },
+        {
+          char: "分",
+          meaning: "Phút",
+          onyomi: "フン, ブン",
+          kunyomi: "わ(ける)",
+          examples: "十分 (じゅっぷん) - 10 phút",
+        },
+        {
+          char: "半",
+          meaning: "Nửa",
+          onyomi: "ハン",
+          kunyomi: "なか(ば)",
+          examples: "一時半 (いちじはん) - 1 giờ rưỡi",
+        },
+        {
+          char: "午",
+          meaning: "Trưa",
+          onyomi: "ゴ",
+          kunyomi: "-",
+          examples: "午前 (ごぜん) - buổi sáng",
+        },
+        {
+          char: "前",
+          meaning: "Trước",
+          onyomi: "ゼン",
+          kunyomi: "まえ",
+          examples: "午前 (ごぜん) - buổi sáng",
+        },
+        {
+          char: "後",
+          meaning: "Sau",
+          onyomi: "ゴ",
+          kunyomi: "あと, うし(ろ)",
+          examples: "午後 (ごご) - buổi chiều",
+        },
+
+        // Bài 4: Từ vựng bổ sung
+        {
+          char: "何",
+          meaning: "Cái gì",
+          onyomi: "カ",
+          kunyomi: "なに, なん",
+          examples: "何時 (なんじ) - mấy giờ",
+        },
+        {
+          char: "誕",
+          meaning: "Sinh",
+          onyomi: "タン",
+          kunyomi: "-",
+          examples: "誕生日 (たんじょうび) - sinh nhật",
+        },
+        {
+          char: "階",
+          meaning: "Tầng",
+          onyomi: "カイ",
+          kunyomi: "-",
+          examples: "一階 (いっかい) - tầng 1",
+        },
+        {
+          char: "国",
+          meaning: "Nước",
+          onyomi: "コク",
+          kunyomi: "くに",
+          examples: "外国 (がいこく) - nước ngoài",
+        },
+        {
+          char: "名",
+          meaning: "Tên",
+          onyomi: "メイ",
+          kunyomi: "な",
+          examples: "名前 (なまえ) - tên",
+        },
+        {
+          char: "仕",
+          meaning: "Phục vụ",
+          onyomi: "シ",
+          kunyomi: "つか(える)",
+          examples: "仕事 (しごと) - công việc",
+        },
+        {
+          char: "事",
+          meaning: "Việc",
+          onyomi: "ジ",
+          kunyomi: "こと",
+          examples: "仕事 (しごと) - công việc",
+        },
+      ];
+
+      // Dữ liệu bài tập nói - Câu hỏi có hình
+      // Dữ liệu câu hỏi có hình - CẬP NHẬT với hình ảnh thực tế
+      const speakingDataWithImage = [
+        {
+          image: "image_1.png", // Hình người phụ nữ tên Mariyamu
+          questions: [
+            {
+              q: "この人のなまえは？",
+              r: "Kono hito no namae wa?",
+              h: "Tên của người này là gì?",
+              a: "マリヤムさんです。",
+            },
+            {
+              q: "マリヤムさんはなんさいですか？",
+              r: "Mariamu-san wa nansai desu ka?",
+              h: "Mariamu-san bao nhiêu tuổi?",
+              a: "マリヤムさんは26さいです。",
+            },
+            {
+              q: "マリヤムさんの おしごとはなんですか？",
+              r: "Mariamu-san no oshigoto wa nan desu ka?",
+              h: "Mariamu-san nghề nghiệp là gì?",
+              a: "マリヤムさんの おしごとはがくせいです。",
+            },
+            {
+              q: "マリヤムさんは学生ですか？",
+              r: "Mariamu-san wa gakusei desu ka?",
+              h: "Mariamu-san có phải là sinh viên không?",
+              a: "はい、マリヤムさんは学生です。",
+            },
+            {
+              q: "マリヤムさんの お国はどちらですか？",
+              r: "Mariamu-san no okuni wa dochira desu ka?",
+              h: "Mariamu-san đến từ nước nào?",
+              a: "マリヤムさんの お国はイタリアです。",
+            },
+            {
+              q: "マリヤムさんはイタリアじんですか？",
+              r: "Mariamu-san wa Itaria-jin desu ka?",
+              h: "Mariamu-san có phải là người Ý không?",
+              a: "はい、マリヤムさんはイタリアじんです。",
+            },
+          ],
+        },
+        {
+          image: "image_2.png", // Hình điện thoại Nokia
+          questions: [
+            {
+              q: "[1] これはなんですか？",
+              r: "Kore wa nan desu ka?",
+              h: "Đây là gì?",
+              a: "これはノキア（NOKIA）のけいたいでんわです。",
+            },
+            {
+              q: "[2] そのけいたいでんわはだれのですか？",
+              r: "Sono keitai denwa wa dare no desu ka?",
+              h: "Chiếc điện thoại này của ai?",
+              a: "それはカルロスさんのものです。",
+            },
+            {
+              q: "[3] そのけいたいでんわはなんのですか？",
+              r: "Sono keitai denwa wa nan no desu ka?",
+              h: "Chiếc điện thoại này là của hãng nào?",
+              a: "それはノキアのけいたいでんわです。",
+            },
+            {
+              q: "[4] このノキアのけいたいでんわはいくらですか？",
+              r: "Kono Nokia no keitai denwa wa ikura desu ka?",
+              h: "Chiếc điện thoại Nokia này giá bao nhiêu?",
+              a: "それはごじゅうごまんドンです。",
+            },
+          ],
+        },
+        {
+          image: "image_3.png", // Hình tòa nhà ニコニコショッピングビル
+          questions: [
+            {
+              q: "１００円ショップはどこですか。",
+              r: "Hyaku en shoppu wa doko desu ka?",
+              h: "Cửa hàng 100 yên ở đâu?",
+              a: "３かいです。",
+            },
+            {
+              q: "サカイでんきはどこですか。",
+              r: "Sakai denki wa doko desu ka?",
+              h: "Cửa hàng điện máy Sakai ở đâu?",
+              a: "４かいです。",
+            },
+            {
+              q: "ほんやはどこですか。",
+              r: "Honya wa doko desu ka?",
+              h: "Hiệu sách ở đâu?",
+              a: "２かいです。",
+            },
+            {
+              q: "ケーキやはどこですか。",
+              r: "Kēki ya wa doko desu ka?",
+              h: "Tiệm bánh ngọt ở đâu?",
+              a: "１かいです。",
+            },
+            {
+              q: "きつえんしょはどこですか。",
+              r: "Kitsuensho wa doko desu ka?",
+              h: "Chỗ hút thuốc ở đâu?",
+              a: "３かいです。",
+            },
+            {
+              q: "トイレはどこですか。",
+              r: "Toire wa doko desu ka?",
+              h: "Nhà vệ sinh ở đâu?",
+              a: "１かい、３かい、５かいにあります。",
+            },
+            {
+              q: "スーパーはどこですか。",
+              r: "Sūpā wa doko desu ka?",
+              h: "Siêu thị ở đâu?",
+              a: "ちかいちです。",
+            },
+          ],
+        },
+        {
+          image: "image_4.png", // Hình 3 tòa nhà: さくら病院, さくら図書館, わかば体育館
+          questions: [
+            {
+              q: "[1] これはなんですか。",
+              r: "Kore wa nan desu ka?",
+              h: "Đây là gì? [Hình 1 - Bệnh viện]",
+              a: "びょういんです。",
+            },
+            {
+              q: "[1] このびょういんの なまえは なんですか。",
+              r: "Kono byouin no namae wa nan desu ka?",
+              h: "Tên của bệnh viện này là gì?",
+              a: "さくらびょういんです。",
+            },
+            {
+              q: "[1] さくらびょういんは なんじから なんじまでですか。",
+              r: "Sakura byouin wa nanji kara nanji made desu ka?",
+              h: "Bệnh viện Sakura mở cửa từ mấy giờ đến mấy giờ?",
+              a: "くじはんから ごごさんじまでです。",
+            },
+            {
+              q: "[2] これはなんですか。",
+              r: "Kore wa nan desu ka?",
+              h: "Đây là gì? [Hình 2 - Thư viện]",
+              a: "としょかんです。",
+            },
+            {
+              q: "[2] このとしょかんの なまえは なんですか。",
+              r: "Kono toshokan no namae wa nan desu ka?",
+              h: "Tên của thư viện này là gì?",
+              a: "さくらとしょかんです。",
+            },
+            {
+              q: "[2] さくらとしょかんは なんじから なんじまでですか。",
+              r: "Sakura toshokan wa nanji kara nanji made desu ka?",
+              h: "Thư viện Sakura mở cửa từ mấy giờ đến mấy giờ?",
+              a: "くじから しちじまでです。",
+            },
+            {
+              q: "[2] としょかんは いつ やすみですか。",
+              r: "Toshokan wa itsu yasumi desu ka?",
+              h: "Thư viện đóng cửa khi nào?",
+              a: "げつようびです。",
+            },
+            {
+              q: "[3] これはなんですか。",
+              r: "Kore wa nan desu ka?",
+              h: "Đây là gì? [Hình 3 - Nhà thi đấu]",
+              a: "たいいくかんです。",
+            },
+            {
+              q: "[3] この たいいくかんの なまえは なんですか。",
+              r: "Kono taiikukan no namae wa nan desu ka?",
+              h: "Tên của nhà thi đấu này là gì?",
+              a: "わかば たいいくかんです。",
+            },
+            {
+              q: "[3] わかば たいいくかんは なんじから なんじまでですか。",
+              r: "Wakaba taiikukan wa nanji kara nanji made desu ka?",
+              h: "Nhà thi đấu Wakaba mở cửa từ mấy giờ đến mấy giờ?",
+              a: "ごぜんはちじはんから ごごくじまでです。",
+            },
+            {
+              q: "[3] わかば たいいくかんは いつ やすみですか。",
+              r: "Wakaba taiikukan wa itsu yasumi desu ka?",
+              h: "Nhà thi đấu Wakaba đóng cửa khi nào?",
+              a: "もくようびです。",
+            },
+          ],
+        },
+        {
+          image: "image_5.png", // Hình máy ảnh Canon
+          questions: [
+            {
+              q: "これはなんですか。",
+              r: "Kore wa nan desu ka?",
+              h: "Đây là gì?",
+              a: "これはキヤノン（Canon）のカメラです。",
+            },
+            {
+              q: "そのカメラはだれのですか。",
+              r: "Sono kamera wa dare no desu ka?",
+              h: "Cái máy ảnh đó là của ai?",
+              a: "それはフランクさんのものです。",
+            },
+            {
+              q: "そのカメラはなんのですか。",
+              r: "Sono kamera wa nan no desu ka?",
+              h: "Cái máy ảnh đó là của hãng nào?",
+              a: "それはキヤノンのカメラです。",
+            },
+            {
+              q: "このキヤノンのカメラはいくらですか。",
+              r: "Kono Kyanon no kamera wa ikura desu ka?",
+              h: "Cái máy ảnh Canon này giá bao nhiêu?",
+              a: "それはろっぴゃくはちじゅうドルです。",
+            },
+          ],
+        },
+        {
+          image: "image_6.png", // Hình phòng gym
+          questions: [
+            {
+              q: "ここは どこですか。",
+              r: "Koko wa doko desu ka?",
+              h: "Đây là đâu?",
+              a: "ここは たいいくかん です。",
+            },
+            {
+              q: "たいいくかんは なんじから なんじまでですか。",
+              r: "Taiikukan wa nanji kara nanji made desu ka?",
+              h: "Nhà thi đấu từ mấy giờ đến mấy giờ?",
+              a: "たいいくかんは ごぜんごじから ごごじゅういちじはんまでです。",
+            },
+            {
+              q: "たいいくかんは なんようびから なんようびまでですか。",
+              r: "Taiikukan wa nanyoubi kara nanyoubi made desu ka?",
+              h: "Nhà thi đấu từ thứ mấy đến thứ mấy?",
+              a: "たいいくかんは げつようび から もくようび と どようび、にちようび まで です。",
+            },
+            {
+              q: "やすみは いつですか。",
+              r: "Yasumi wa itsu desu ka?",
+              h: "Ngày nghỉ là khi nào?",
+              a: "やすみは きんようびです。",
+            },
+            {
+              q: "ここで なにを しますか。",
+              r: "Koko de nani o shimasu ka?",
+              h: "Ở đây làm gì?",
+              a: "ここで スポーツを したり、トレーニングを したりします。",
+            },
+          ],
+        },
+      ];
+      let speechRate = 1.0;
+
+      // Khởi tạo
+      function init() {
+        renderHiragana();
+        renderKatakana();
+        renderKanji();
+        renderSpeaking();
+        generateQuiz();
+
+        document
+          .getElementById("speech-rate")
+          .addEventListener("change", (e) => {
+            speechRate = parseFloat(e.target.value);
+          });
+      }
+
+      // Render Hiragana
+      function renderHiragana() {
+        const grid = document.getElementById("hiragana-grid");
+        hiraganaData.forEach((item) => {
+          const card = document.createElement("div");
+          card.className = "kana-card";
+          card.innerHTML = `
+                    <div class="kana-char">${item.char}</div>
+                    <div class="kana-romaji">${item.romaji}</div>
+                `;
+          card.onclick = () => speak(item.romaji);
+          grid.appendChild(card);
+        });
+      }
+
+      // Render Katakana
+      function renderKatakana() {
+        const grid = document.getElementById("katakana-grid");
+        katakanaData.forEach((item) => {
+          const card = document.createElement("div");
+          card.className = "kana-card";
+          card.innerHTML = `
+                    <div class="kana-char">${item.char}</div>
+                    <div class="kana-romaji">${item.romaji}</div>
+                `;
+          card.onclick = () => speak(item.romaji);
+          grid.appendChild(card);
+        });
+      }
+
+      // Render Kanji
+      function renderKanji() {
+        const container = document.getElementById("kanji-list");
+        kanjiData.forEach((item) => {
+          const card = document.createElement("div");
+          card.className = "kanji-card";
+          card.innerHTML = `
+                    <div class="kanji-large">${item.char}</div>
+                    <h3>${item.meaning}</h3>
+                    <div class="kanji-info">
+                        <div class="info-box">
+                            <strong>Âm Hán:</strong><br>${item.onyomi}
+                        </div>
+                        <div class="info-box">
+                            <strong>Âm Nhật:</strong><br>${item.kunyomi}
+                        </div>
+                    </div>
+                `;
+          container.appendChild(card);
+        });
+      }
+
+      // Render Speaking
+      function renderSpeaking() {
+        const container = document.getElementById("speaking-content");
+
+        // Phần câu hỏi không có hình
+        const noImageSection = document.createElement("div");
+        noImageSection.innerHTML =
+          '<h3 style="color: #667eea; margin: 20px 0;"><i class="fas fa-comments"></i> Câu hỏi không có hình</h3>';
+        container.appendChild(noImageSection);
+
+        speakingDataNoImage.forEach((item, index) => {
+          const card = document.createElement("div");
+          card.className = "speaking-card";
+          card.innerHTML = `
+                    <h3>Câu ${index + 1}</h3>
+                    <div class="japanese-text">${item.question}</div>
+                    <div class="hint-text"><i class="fas fa-lightbulb"></i> ${
+                      item.hint
+                    }</div>
+                    <div style="margin-top: 10px;">
+                        <button class="btn btn-primary" onclick="speak('${item.romaji.replace(
+                          /'/g,
+                          "\\'"
+                        )}')">
+                            <i class="fas fa-volume-up"></i> Nghe câu hỏi
+                        </button>
+                        <button class="btn btn-secondary" onclick="toggleTranslation('no-img-${index}')">
+                            <i class="fas fa-eye"></i> Xem đáp án
+                        </button>
+                    </div>
+                    <div class="translation" id="translation-no-img-${index}">
+                        <strong>Romaji:</strong> ${item.romaji}<br>
+                        <strong>Câu trả lời mẫu:</strong><br>${item.answer}
+                    </div>
+                `;
+          container.appendChild(card);
+        });
+
+        // Phần câu hỏi có hình
+        const withImageSection = document.createElement("div");
+        withImageSection.innerHTML =
+          '<h3 style="color: #667eea; margin: 30px 0 20px;"><i class="fas fa-images"></i> Câu hỏi có hình</h3>';
+        container.appendChild(withImageSection);
+
+        speakingDataWithImage.forEach((item, setIndex) => {
+          const setCard = document.createElement("div");
+          setCard.className = "speaking-card";
+          setCard.style.background =
+            "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)";
+
+          let questionsHTML = "";
+          item.questions.forEach((q, qIndex) => {
+            questionsHTML += `
+                        <div style="background: white; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                            <h4>Câu ${qIndex + 1}</h4>
+                            <div class="japanese-text">${q.q}</div>
+                            <div class="hint-text"><i class="fas fa-lightbulb"></i> ${
+                              q.h
+                            }</div>
+                            <div style="margin-top: 10px;">
+                                <button class="btn btn-primary" onclick="speak('${q.r.replace(
+                                  /'/g,
+                                  "\\'"
+                                )}')">
+                                    <i class="fas fa-volume-up"></i> Nghe
+                                </button>
+                                <button class="btn btn-secondary" onclick="toggleTranslation('with-img-${setIndex}-${qIndex}')">
+                                    <i class="fas fa-eye"></i> Xem đáp án
+                                </button>
+                            </div>
+                            <div class="translation" id="translation-with-img-${setIndex}-${qIndex}">
+                                <strong>Romaji:</strong> ${q.r}<br>
+                                <strong>Câu trả lời:</strong><br>${q.a}
+                            </div>
+                        </div>
+                    `;
+          });
+
+          setCard.innerHTML = `
+                    <h3>Bộ câu hỏi ${setIndex + 1}</h3>
+                    <div class="image-container">
+                        <img src="${
+                          item.image
+                        }" alt="Question image" style="max-width: 100%; border-radius: 10px; margin: 15px 0;">
+                    </div>
+                    ${questionsHTML}
+                `;
+          container.appendChild(setCard);
+        });
+      }
+
+      // Generate Quiz
+      function generateQuiz() {
+        const container = document.getElementById("quiz-container");
+        const allKana = [...hiraganaData, ...katakanaData];
+        const randomKana = allKana[Math.floor(Math.random() * allKana.length)];
+        const wrongAnswers = allKana
+          .filter((k) => k.romaji !== randomKana.romaji)
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 3);
+
+        const options = [randomKana, ...wrongAnswers].sort(
+          () => 0.5 - Math.random()
+        );
+
+        container.innerHTML = `
+                <div class="quiz-container">
+                    <div class="quiz-question">
+                        <strong>Ký tự này đọc là gì?</strong>
+                        <div style="font-size: 4rem; margin: 20px 0;">${
+                          randomKana.char
+                        }</div>
+                    </div>
+                    <div class="quiz-options">
+                        ${options
+                          .map(
+                            (opt) => `
+                            <div class="quiz-option" onclick="checkAnswer('${opt.romaji}', '${randomKana.romaji}', this)">
+                                ${opt.romaji}
+                            </div>
+                        `
+                          )
+                          .join("")}
+                    </div>
+                    <button class="btn btn-primary" onclick="generateQuiz()" style="margin-top: 20px;">
+                        <i class="fas fa-redo"></i> Câu hỏi mới
+                    </button>
+                </div>
+            `;
+      }
+
+      // Check Answer
+      function checkAnswer(selected, correct, element) {
+        const options = document.querySelectorAll(".quiz-option");
+        options.forEach((opt) => {
+          opt.style.pointerEvents = "none";
+          if (opt.textContent.trim() === correct) {
+            opt.classList.add("correct");
+          }
+        });
+
+        if (selected !== correct) {
+          element.classList.add("wrong");
+        }
+      }
+
+      // Speak function
+      function speak(text) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "ja-JP";
+        utterance.rate = speechRate;
+        window.speechSynthesis.speak(utterance);
+      }
+
+      // Toggle translation
+      function toggleTranslation(index) {
+        const translation = document.getElementById(`translation-${index}`);
+        translation.classList.toggle("show");
+      }
+
+      // Show tab
+      function showTab(tabName) {
+        document.querySelectorAll(".tab-content").forEach((tab) => {
+          tab.classList.remove("active");
+        });
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+
+        document.getElementById(tabName).classList.add("active");
+        event.target.classList.add("active");
+      }
+
+      // Initialize on load
+      window.onload = init;
+    </script>
+  </body>
+</html>
